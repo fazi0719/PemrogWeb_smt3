@@ -14,6 +14,7 @@
                 <li><a href="../buku/list.html">Daftar Buku</a></li>
                 <li><a href="list.html">Daftar Anggota</a></li>
                 <li><a href="tambah.html">Tambah Anggota</a></li>
+                <li><a href="list.html">Tambah Buku</a></li>
             </ul>
         </nav>
     </header>
@@ -22,6 +23,7 @@
         <section>
             <h2>Daftar Anggota</h2>
             <table>
+
                 <thead>
                     <tr>
                         <th>No. Anggota</th>
@@ -29,6 +31,7 @@
                         <th>Alamat</th>
                         <th>No. HP</th>
                         <th>Aksi</th>
+                        <th>Jenis Kelamin</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,9 +41,11 @@
                         <td>Malang</td>
                         <td>0812xxxx</td>
                         <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-detail">Detail</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
                         </td>
+                        <td>Perempuan</td>
                     </tr>
                     <tr>
                         <td>A002</td>
@@ -48,9 +53,11 @@
                         <td>Batu</td>
                         <td>0813xxxx</td>
                         <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-detail">Detail</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
                         </td>
+                        <td>Laki-laki</td>
                     </tr>
                 </tbody>
             </table>
@@ -58,7 +65,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 1</p>
+        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 2</p>
     </footer>
 </body>
 </html>
