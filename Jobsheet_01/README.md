@@ -7,7 +7,7 @@ Menambahkan tautan Daftar Anggota dan Tambah Anggota pada menu `<nav>` di `index
 Menambahkan 2 baris data buku baru pada tabel di `buku/list.html` dengan menyalin struktur `<tr>...</tr>` dan mengganti isi datanya.
 
 ### 3. Menambahkan Kolom Tabel Anggota
-Menambahkan kolom Jenis Kelamin pada tabel anggota dengan menambahkan `<th>` sebagai judul kolom dan `<td>` pada setiap baris data.
+Menambahkan kolom Tanggal Bergabung pada tabel anggota dengan menambahkan `<th>` sebagai judul kolom dan `<td>` pada setiap baris data.
 
 ### 4. Menambahkan Field Email
 Menambahkan field Email pada form tambah anggota menggunakan:
