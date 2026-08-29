@@ -125,16 +125,20 @@ td button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85rem;
+    color: #fff;
+    white-space: nowrap; 
 }
 
-td button:first-of-type {
+td button.btn-edit {
     background-color: #f0ad4e;
-    color: #fff;
 }
 
-td button:last-of-type {
+td button.btn-detail {
+    background-color: #5bc0de;
+}
+
+td button.btn-hapus {
     background-color: #d9534f;
-    color: #fff;
 }
 
 /* ===== Form ===== */
