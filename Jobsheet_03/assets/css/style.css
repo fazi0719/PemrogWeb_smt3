@@ -159,7 +159,17 @@ td button.btn-hapus {
 .table-responsive {
     overflow-x: auto;
 }
-
+/* ===== Blok Kode Responsif ===== */
+pre {
+    background-color: #2b2b2b;
+    color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    margin-top: 1rem;
+}
 /* ===== Form ===== */
 form p {
     margin-bottom: 1rem;
