@@ -206,8 +206,8 @@ footer {
 
 /* ===== Responsive Breakpoints ===== */
 
-/* Tablet ke bawah (≤ 768px) */
-@media (max-width: 768px) {
+/* Tablet ke bawah (≤ 900PX) */
+@media (max-width: 900px) {
     main section:nth-of-type(2) {
         grid-template-columns: repeat(2, 1fr);
     }
