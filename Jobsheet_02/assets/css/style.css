@@ -94,7 +94,7 @@ main section:nth-of-type(2) article p {
     font-weight: 700;
     color: #1b6b4a; /* Diubah dari #1d5b8a */
 }
-main section:nth-of-type(2) h2 { /* Mengatur judul "Ringkasan Statistik" agar menempati seluruh lebar grid */
+main section:nth-of-type(2) h2 {  /* Mengatur judul "Ringkasan Statistik" agar menempati seluruh lebar grid */
     grid-column: 1 / -1; 
 }
 /* ===== Tabel ===== */
