@@ -124,3 +124,10 @@ Halaman yang sudah ada (Beranda, Daftar/Tambah Buku, Daftar/Tambah Anggota — J
 |                                                  |
 |   Sudah memiliki akun anggota? Hubungi Petugas   |
 +--------------------------------------------------+
+
+[Petugas Login] -> [Dashboard Petugas] 
+        -> [Klik Kartu Statistik "Buku Terlambat"] 
+        -> [Sistem Menampilkan Daftar Transaksi Lewat Jatuh Tempo] 
+        -> [Petugas Memilih Data Anggota Tertentu] 
+        -> [Catat Denda Keterlambatan / Kirim Notifikasi Peringatan] 
+        -> [Kembali ke Dashboard]
