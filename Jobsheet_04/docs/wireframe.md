@@ -125,9 +125,24 @@ Halaman yang sudah ada (Beranda, Daftar/Tambah Buku, Daftar/Tambah Anggota — J
 |   Sudah memiliki akun anggota? Hubungi Petugas   |
 +--------------------------------------------------+
 
+### 2. User Flow Monitoring Peminjaman Terlambat (Aktor: Petugas)
 [Petugas Login] -> [Dashboard Petugas] 
         -> [Klik Kartu Statistik "Buku Terlambat"] 
         -> [Sistem Menampilkan Daftar Transaksi Lewat Jatuh Tempo] 
         -> [Petugas Memilih Data Anggota Tertentu] 
         -> [Catat Denda Keterlambatan / Kirim Notifikasi Peringatan] 
         -> [Kembali ke Dashboard]
+
+### 3. Identifikasi Edge Case Tambahan
+
+1. **Peminjaman Buku yang Sama Berturut-turut oleh Anggota yang Sama**
+   - **Kasus:** Petugas memproses peminjaman buku yang sama untuk anggota yang sama, padahal eksemplar sebelumnya belum dikembalikan.
+   - **Aturan Sistem:** Sistem mengecek riwayat sirkulasi aktif. Jika statusnya masih `"Dipinjam"`, aksi simpan ditolak dengan pesan: *"Gagal: Anggota sedang meminjam buku ini."*
+
+2. **Anggota Memiliki Tanggungan Keterlambatan**
+   - **Kasus:** Anggota mengajukan peminjaman baru saat masih memegang buku lain yang melewati batas tanggal pengembalian.
+   - **Aturan Sistem:** Tombol transaksi diblokir sampai buku yang terlambat dikembalikan dan denda (jika ada) diselesaikan.
+
+3. **Stok Buku Mendadak Habis (*Race Condition*)**
+   - **Kasus:** Sisa stok buku tinggal 1, lalu dibuka oleh dua sesi petugas pada waktu bersamaan. Petugas pertama menyimpan transaksi lebih dulu.
+   - **Aturan Sistem:** Validasi ulang ketersediaan stok di sisi sistem sebelum kuota dikurangi, lalu tampilkan pesan: *"Stok buku telah habis."*
