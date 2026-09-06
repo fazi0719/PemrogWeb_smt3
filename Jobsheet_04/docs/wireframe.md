@@ -103,3 +103,24 @@ Halaman yang sudah ada (Beranda, Daftar/Tambah Buku, Daftar/Tambah Anggota — J
 - Navbar akan ditambah menu **Peminjaman** dan indikator status login (nama petugas / tombol Logout) mulai implementasi di Jobsheet 10.
 - Edge case yang perlu ditangani saat implementasi: buku stok habis tidak boleh dipilih di form peminjaman; anggota dengan tunggakan terlambat divalidasi di Jobsheet 12 (tugas mandiri).
 
+---
+
+## Tugas dan Latihan Mandiri (Bab 6)
+### Latihan 1: Wireframe Form Registrasi Anggota Baru (Aktor: Tamu)
+```text
++--------------------------------------------------+
+|                   SIMPUS-Mini                    |
+|--------------------------------------------------|
+|                                                  |
+|           Registrasi Anggota Baru                |
+|                                                  |
+|   Nomor Anggota : [ AUTO-GENERATED ]             |
+|   Nama Lengkap  : [____________________________] |
+|   Email         : [____________________________] |
+|   Nomor Telepon : [____________________________] |
+|   Alamat        : [____________________________] |
+|                                                  |
+|   [ Daftar Sekarang ]    [ Batal ]               |
+|                                                  |
+|   Sudah memiliki akun anggota? Hubungi Petugas   |
++--------------------------------------------------+
