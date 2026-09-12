@@ -47,6 +47,9 @@ function perbaruiCounter() {
 // tombol .btn-hapus belum tentu ada saat DOMContentLoaded.
 function initHapusConfirm() {
     document.addEventListener("click", function (e) {
+        // latihan 4: Tambahkan console.log di sini untuk memantau elemen yang diklik:
+        console.log("Elemen yang diklik:", e.target);
+        
         const btn = e.target.closest(".btn-hapus");
         if (!btn) return;
 
