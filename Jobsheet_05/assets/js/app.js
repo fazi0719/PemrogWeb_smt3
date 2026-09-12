@@ -92,68 +92,66 @@ function hapusError(input) {
     }
 }
 
+// Latihan 5: Refactor Validasi Menggunakan Array & Loop forEach
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
 
+     // Daftar aturan validasi (Nama selector, fungsi validasi, dan pesan error)
+    const aturanValidasi = [
+        {
+            selector: "[name='judul'], [name='nama']",
+            valid: (val) => val.trim() !== "",
+            pesan: "Field ini wajib diisi."
+        },
+        {
+            selector: "[name='no_anggota']",
+            valid: (val) => val.trim() !== "",
+            pesan: "Field ini wajib diisi."
+        },
+        {
+            selector: "[name='pengarang']",
+            valid: (val) => val.trim() !== "",
+            pesan: "Field ini wajib diisi."
+        },
+        {
+            selector: "[name='tahun']",
+            valid: (val) => {
+                const nilai = parseInt(val, 10);
+                return !isNaN(nilai) && nilai >= 1900 && nilai <= 2026;
+            },
+            pesan: "Tahun harus di antara 1900–2026."
+        },
+        {
+            selector: "[name='stok']",
+            valid: (val) => {
+                const nilai = parseInt(val, 10);
+                return !isNaN(nilai) && nilai >= 0;
+            },
+            pesan: "Stok tidak boleh bernilai negatif."
+        },
+        {
+            selector: "[name='isbn']",
+            // Opsional: jika kosong diizinkan; jika ada isi, wajib angka dan tanda hubung
+            valid: (val) => val.trim() === "" || /^[0-9-]+$/.test(val.trim()),
+            pesan: "ISBN hanya boleh berisi angka dan tanda hubung (-)."
+        }
+    ];
+
     form.addEventListener("submit", function (e) {
         let valid = true;
 
-        // Validasi Judul Buku atau Nama Anggota
-        const judul = form.querySelector("[name='judul'], [name='nama']");
-        if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
-            valid = false;
-        } else if (judul) {
-            hapusError(judul);
-        }
+        aturanValidasi.forEach(function (aturan) {
+            const el = form.querySelector(aturan.selector);
+            if (!el) return; // Lewati jika elemen tidak ada di form halaman saat ini
 
-        // Validasi Pengarang
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Field ini wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
-        }
-
-        // Validasi Tahun Terbit
-        const tahun = form.querySelector("[name='tahun']");
-        if (tahun) {
-            const nilai = parseInt(tahun.value, 10);
-            if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
-                tampilkanError(tahun, "Tahun harus di antara 1900-2026.");
+            if (!aturan.valid(el.value)) {
+                tampilkanError(el, aturan.pesan);
                 valid = false;
             } else {
-                hapusError(tahun);
+                hapusError(el);
             }
-        }
-
-        // Validasi Stok
-        const stok = form.querySelector("[name='stok']");
-        if (stok) {
-            const nilaiStok = parseInt(stok.value, 10);
-            if (isNaN(nilaiStok) || nilaiStok < 0) {
-                tampilkanError(stok, "Stok tidak boleh bernilai negatif.");
-                valid = false;
-            } else {
-                hapusError(stok);
-            }
-        }
-
-        // LATIHAN 1 Validasi ISBN (Opsional, tapi jika diisi hanya angka & tanda hubung)
-        const isbn = form.querySelector("[name='isbn']");
-        if (isbn && isbn.value.trim() !== "") {
-            const isbnRegex = /^[0-9-]+$/;
-            if (!isbnRegex.test(isbn.value.trim())) {
-                tampilkanError(isbn, "ISBN hanya boleh berisi angka dan tanda hubung (-).");
-                valid = false;
-            } else {
-                hapusError(isbn);
-            }
-        } else if (isbn) {
-            hapusError(isbn);
-        }
+        });
 
         if (!valid) {
             e.preventDefault();
