@@ -49,7 +49,7 @@ function initHapusConfirm() {
     document.addEventListener("click", function (e) {
         // latihan 4: Tambahkan console.log di sini untuk memantau elemen yang diklik:
         console.log("Elemen yang diklik:", e.target);
-        
+
         const btn = e.target.closest(".btn-hapus");
         if (!btn) return;
 
@@ -187,7 +187,8 @@ async function muatDataTabel(url, keys) {
 
     try {
         // Simulasi delay jaringan agar loading indicator terlihat
-        await new Promise((resolve) => setTimeout(resolve, 600));
+        // latihan 5: Tambahkan delay 3 detik agar loading indicator terlihat lebih lama
+        await new Promise((resolve) => setTimeout(resolve, 3000));
 
         const res = await fetch(url);
         if (!res.ok) {
