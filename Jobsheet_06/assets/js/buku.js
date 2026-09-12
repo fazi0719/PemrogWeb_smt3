@@ -42,5 +42,16 @@ async function muatDaftarBuku() {
         loading.style.display = "none";
     }
 }
+// latihan 1: Memanggil fungsi muatDaftarBuku saat halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. Panggil pertama kali saat halaman dimuat
+    muatDaftarBuku();
 
-document.addEventListener("DOMContentLoaded", muatDaftarBuku);
+    // 2. Pasang event listener ke tombol Muat Ulang
+    const btnReload = document.getElementById("btn-muat-ulang");
+    if (btnReload) {
+        btnReload.addEventListener("click", function () {
+            muatDaftarBuku();
+        });
+    }
+});
