@@ -106,6 +106,20 @@ function initValidasiForm() {
             }
         }
 
+        // [LATIHAN 1 Validasi ISBN (Opsional, tapi jika diisi hanya angka & tanda hubung)
+        const isbn = form.querySelector("[name='isbn']");
+        if (isbn && isbn.value.trim() !== "") {
+            const isbnRegex = /^[0-9-]+$/;
+            if (!isbnRegex.test(isbn.value.trim())) {
+                tampilkanError(isbn, "ISBN hanya boleh berisi angka dan tanda hubung (-).");
+                valid = false;
+            } else {
+                hapusError(isbn);
+            }
+        } else if (isbn) {
+            hapusError(isbn);
+        }
+
         if (!valid) {
             e.preventDefault();
         }
