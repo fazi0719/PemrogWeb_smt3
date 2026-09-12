@@ -259,16 +259,22 @@ footer {
         display: block;
     }
 
+/* LATIHAN 2 Animasi Transisi Menu Hamburger */
     header nav {
-        display: none;
+        display: block;             /* Tetap block agar bisa dianimasikan */
         width: 100%;
         order: 3;
-        margin-top: 1rem;
+        max-height: 0;              /* Saat tertutup: tinggi 0 */
+        opacity: 0;                 /* Saat tertutup: transparan */
+        overflow: hidden;           /* Sembunyikan teks menu yang meluap */
+        transition: max-height 0.35s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.35s ease;
+        margin-top: 0;
     }
 
-    /* JOBSHEET 5 - KONTROL MENU DENGAN CLASS JS] */
     header nav.nav-open {
-        display: block;
+        max-height: 300px;          /* Saat terbuka: tinggi mengembang */
+        opacity: 1;                 /* Saat terbuka: terlihat jelas */
+        margin-top: 1rem;           /* Jarak atas muncul secara halus */
     }
 
     header nav ul {
