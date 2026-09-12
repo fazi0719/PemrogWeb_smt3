@@ -11,6 +11,35 @@ function initNavToggle() {
     });
 }
 
+// Latihan 4: Counter Jumlah Baris Tersisa
+function perbaruiCounter() {
+    const table = document.querySelector(".table-responsive table");
+    const searchBox = document.querySelector(".search-box");
+    if (!table || !searchBox) return;
+
+    let counter = document.getElementById("table-counter");
+    if (!counter) {
+        counter = document.createElement("p");
+        counter.id = "table-counter";
+        counter.style.fontSize = "0.9rem";
+        counter.style.color = "#55677a";
+        counter.style.margin = "0.5rem 0 1rem 0";
+        counter.style.fontWeight = "500";
+        searchBox.insertAdjacentElement("afterend", counter);
+    }
+
+    const rows = table.querySelectorAll("tbody tr");
+    const total = rows.length;
+    let tampil = 0;
+
+    rows.forEach(function (row) {
+        if (row.style.display !== "none") {
+            tampil++;
+        }
+    });
+
+    counter.textContent = `Menampilkan ${tampil} dari ${total} data`;
+}
 // 2. Konfirmasi Hapus Data pada Tabel (Sisi Klien/Front-end, belum ke server)
 function initHapusConfirm() {
     document.querySelectorAll(".btn-hapus").forEach(function (btn) {
@@ -20,6 +49,8 @@ function initHapusConfirm() {
             const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
             if (yakin && row) {
                 row.remove();
+                // latihan 4 
+                perbaruiCounter();
             }
         });
     });
@@ -40,6 +71,8 @@ function initTableFilter() {
             const teks = kolomPertama ? kolomPertama.textContent.toLowerCase() : "";
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
+        // latihan 4: Memperbarui counter setelah filter
+        perbaruiCounter();
     });
 }
 
@@ -134,4 +167,5 @@ document.addEventListener("DOMContentLoaded", function () {
     initHapusConfirm();
     initTableFilter();
     initValidasiForm();
+    perbaruiCounter(); // latihan 4: Memperbarui counter saat halaman dimuat
 });
