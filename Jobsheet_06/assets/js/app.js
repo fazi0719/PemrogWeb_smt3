@@ -1,4 +1,4 @@
-// Deskripsi: Interaktivitas DOM & Event SIMPUS-Mini (Jobsheet 5)
+
 
 // 1. Menu Hamburger (JS-driven menggantikan checkbox hack)
 function initNavToggle() {
@@ -171,3 +171,57 @@ document.addEventListener("DOMContentLoaded", function () {
     initValidasiForm();
     perbaruiCounter(); // latihan 4: Memperbarui counter saat halaman dimuat
 });
+
+
+// Latihan 2 Jobsheet 6: Fungsi Generik
+async function muatDataTabel(url, keys) {
+    const tbody = document.querySelector(".table-responsive table tbody");
+    const loading = document.getElementById("loading-indicator");
+    if (!tbody) return;
+
+    if (loading) loading.style.display = "block";
+    tbody.innerHTML = "";
+
+    try {
+        // Simulasi delay jaringan agar loading indicator terlihat
+        await new Promise((resolve) => setTimeout(resolve, 600));
+
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error("Gagal mengambil data (status " + res.status + ")");
+        }
+
+        const data = await res.json();
+
+        data.forEach(function (item) {
+            const tr = document.createElement("tr");
+
+            // Render setiap nilai kolom secara dinamis sesuai parameter keys
+            let kolomHtml = "";
+            keys.forEach(function (key) {
+                const nilai = item[key] !== undefined && item[key] !== "" ? item[key] : "-";
+                kolomHtml += "<td>" + nilai + "</td>";
+            });
+
+            // Kolom tombol aksi di paling kanan
+            kolomHtml +=
+                "<td>" +
+                "<button type=\"button\">Edit</button> " +
+                "<button type=\"button\" class=\"btn-hapus\">Hapus</button>" +
+                "</td>";
+
+            tr.innerHTML = kolomHtml;
+            tbody.appendChild(tr);
+        });
+
+        // Perbarui counter tabel setelah data berhasil masuk
+        if (typeof perbaruiCounter === "function") {
+            perbaruiCounter();
+        }
+    } catch (err) {
+        tbody.innerHTML =
+            "<tr><td colspan=\"" + (keys.length + 1) + "\">Gagal memuat data: " + err.message + "</td></tr>";
+    } finally {
+        if (loading) loading.style.display = "none";
+    }
+}
