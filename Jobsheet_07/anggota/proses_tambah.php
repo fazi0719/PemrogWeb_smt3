@@ -52,6 +52,7 @@ $_SESSION['anggota'][] = [
 ];
 
 // JOBSHEET 7: Set flash message sukses lalu redirect ke list.php
+// latihan 2 //
 $_SESSION['flash'] = [
     'type' => 'success',
     'pesan' => 'Anggota berhasil ditambahkan.'
