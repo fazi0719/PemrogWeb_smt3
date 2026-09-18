@@ -28,6 +28,14 @@ $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
                 <li><a href="<?php echo $base; ?>buku/tambah.php">Tambah Buku</a></li>
                 <li><a href="<?php echo $base; ?>anggota/list.php">Daftar Anggota</a></li>
                 <li><a href="<?php echo $base; ?>anggota/tambah.php">Tambah Anggota</a></li>
+                <!-- Tambahan Tombol Reset Data -->
+                <li>
+                    <a href="<?php echo $base; ?>reset.php" 
+                    onclick="return confirm('Apakah Anda yakin ingin mengosongkan seluruh data session?');" 
+                    style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; margin-left: 10px;">
+                    Reset Data
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
