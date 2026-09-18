@@ -16,6 +16,11 @@ $errors = [];
 if ($nama === '') {
     $errors[] = "Nama wajib diisi.";
 }
+// Tambahan: Validasi minimal panjang nama
+// latihan 2
+if ($nama !== '' && strlen($nama) < 3) {
+    $errors[] = "Nama anggota minimal harus 3 karakter.";
+}
 
 if ($no_anggota === '') {
     $errors[] = "Nomor anggota wajib diisi.";
