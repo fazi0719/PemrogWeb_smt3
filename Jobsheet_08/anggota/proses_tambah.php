@@ -53,7 +53,8 @@ $stmt = $pdo->prepare(
      VALUES (:nama, :no_anggota, :alamat, :no_hp, :email, :tgl_bergabung)
      RETURNING id"
 );
-
+// LATIHAN 1 jobsheet 8: Menangani error UNIQUE
+try {
 // JOBSHEET 8: Mengirim nilai data ke parameter query
 $stmt->execute([
     'nama'       => $nama,
@@ -65,9 +66,15 @@ $stmt->execute([
 ]);
 
 // JOBSHEET 7: Set flash message sukses lalu redirect ke list.php
-// latihan 2 //
+// latihan 2 jb 7//
 $_SESSION['flash'] = ['type' => 'success','pesan' => 'Anggota berhasil ditambahkan.'];
-
+} catch (PDOException $e) {
+    // Jika no_anggota sudah digunakan
+    $_SESSION['flash'] = [
+        'type' => 'error',
+        'pesan' => 'No. Anggota sudah dipakai, gunakan nomor lain.'
+    ];
+}
 // JOBSHEET 7: Mengarahkan pengguna ke halaman daftar anggota
 header('Location: list.php');
 exit;
