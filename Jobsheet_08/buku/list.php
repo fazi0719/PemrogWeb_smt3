@@ -40,7 +40,7 @@ $daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::
 
                         <!-- Modifikasi: Kolom Kategori dari jobsheet sebelumnya -->
                         <th>Kategori</th>
-
+                        <th>Tanggal Ditambahkan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@ $daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::
                     <?php if (empty($daftarBuku)): ?>
                     <tr>
                         <!-- Modifikasi: colspan diubah menjadi 6 karena ada kolom Kategori -->
-                        <td colspan="6">Belum ada data buku. Silakan tambah lewat menu "Tambah Buku".</td>
+                        <td colspan="7">Belum ada data buku. Silakan tambah lewat menu "Tambah Buku".</td>
                     </tr>
                     <?php else: ?>
 
@@ -63,7 +63,8 @@ $daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::
 
                             <!-- Modifikasi: Menampilkan kolom Kategori dari jobsheet sebelumnya -->
                             <td><?php echo $buku['kategori']; ?></td>
-
+                            <!-- LATIHAN 2: Menampilkan tanggal ditambahkan --> 
+                            <td><?php echo $buku['tanggal_ditambahkan']; ?></td>
                             <td>
                                 <button type="button">Edit</button>
                                 <button type="button" class="btn-hapus">Hapus</button>
