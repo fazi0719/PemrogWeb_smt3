@@ -12,8 +12,24 @@ require __DIR__ . '/../includes/koneksi.php';
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
-// JOBSHEET 8: Mengambil data buku dari database PostgreSQL
-$daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+// LATIHAN 3 JOBSHEET 8: Pencarian buku di server
+// Mengambil keyword dari kolom pencarian
+$keyword = trim($_GET['keyword'] ?? '');
+
+// Menyiapkan query pencarian menggunakan ILIKE
+$stmt = $pdo->prepare(
+    "SELECT * FROM buku
+     WHERE judul ILIKE :keyword
+     ORDER BY id DESC"
+);
+
+// Mengirim keyword ke parameter query
+$stmt->execute([
+    'keyword' => '%' . $keyword . '%'
+]);
+
+// Mengambil hasil query dari database
+$daftarBuku = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
         <section>
             <h2>Daftar Buku</h2>
@@ -23,10 +39,19 @@ $daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::
                 <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['pesan']; ?></p>
             <?php endif; ?>
 
-            <!-- JOBSHEET 5: Kolom pencarian real-time (tetap dipertahankan) -->
+           <!-- LATIHAN 3 JOBSHEET 8: Kolom pencarian server-side -->
             <div class="search-box">
-                <label for="search-input">Cari Judul Buku</label>
-                <input type="text" id="search-input" placeholder="Ketik judul buku...">
+                <form method="GET">
+                    <label for="search-input">Cari Judul Buku</label>
+                    <input
+                        type="text"
+                        id="search-input"
+                        name="keyword"
+                        placeholder="Ketik judul buku..."
+                        value="<?php echo htmlspecialchars($keyword); ?>"
+                    >
+                    <button type="submit">Cari</button>
+                </form>
             </div>
 
             <div class="table-responsive">
