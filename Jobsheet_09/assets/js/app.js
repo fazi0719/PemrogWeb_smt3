@@ -56,6 +56,18 @@ function initHapusConfirm() {
     });
 }
 
+// ===== Latihhan 1 jobsheet 9: Konfirmasi Update Data (Form Edit) =====
+function initUpdateConfirm() {
+    document.addEventListener("submit", function (e) {
+        const form = e.target;
+        if (!form.classList.contains("form-edit")) return;
+
+        const yakin = confirm("Apakah Anda yakin ingin menyimpan perubahan data ini?");
+        if (!yakin) {
+            e.preventDefault();
+        }
+    });
+}
 // ===== 4. Filter / Pencarian Tabel Real-Time =====
 function initTableFilter() {
     const input = document.getElementById("search-input");
@@ -158,6 +170,7 @@ function initValidasiForm() {
 document.addEventListener("DOMContentLoaded", function () {
     initNavToggle();
     initHapusConfirm();
+    initUpdateConfirm(); // JOBSHEET 9: Konfirmasi Update Data (Form Edit)
     initTableFilter();
     initValidasiForm();
     perbaruiCounter();

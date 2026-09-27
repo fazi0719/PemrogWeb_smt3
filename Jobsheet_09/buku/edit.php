@@ -37,7 +37,8 @@ if (!$buku) {
                 <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['pesan']; ?></p>
             <?php endif; ?>
 
-            <form id="form-tambah" method="post" action="proses_edit.php">
+            <!-- latihan 1 jobsheet 9: Form Edit Buku dengan method POST ke proses_edit.php -->
+            <form id="form-edit" class="form-edit" method="post" action="proses_edit.php">
                 <!-- JOBSHEET 9: Field tersembunyi untuk membawa ID buku -->
                 <input type="hidden" name="id" value="<?php echo $buku['id']; ?>">
                 
