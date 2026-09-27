@@ -13,7 +13,7 @@ $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
 // JOBSHEET 9: Fitur Pagination & Pencarian Sisi Server
-$perPage = 5;
+$perPage = 10; // latihan 2 jobsheet 9: Menampilkan 10 data per halaman
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
 $keyword = trim($_GET['q'] ?? '');
