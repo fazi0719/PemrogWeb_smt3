@@ -71,11 +71,14 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                             <td><?php echo $anggota['alamat']; ?></td>
                             <td><?php echo $anggota['no_hp']; ?></td>
                             <td>
-                                <a href="edit.php?id=<?php echo $anggota['id']; ?>" class="btn-edit">Edit</a>
-                                <form class="form-hapus" method="post" action="hapus.php">
-                                    <input type="hidden" name="id" value="<?php echo $anggota['id']; ?>">
-                                    <button type="submit" class="btn-hapus">Hapus</button>
-                                </form>
+                            <a href="edit.php?id=<?php echo $anggota['id']; ?>" class="btn-edit">Edit</a>
+
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                            <form action="hapus.php" method="POST" class="form-hapus">
+                                <input type="hidden" name="id" value="<?php echo $anggota['id']; ?>">
+                                <button type="submit" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                            </form>
+                            <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
