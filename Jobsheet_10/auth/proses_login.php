@@ -4,6 +4,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require __DIR__ . '/../includes/koneksi.php';
 
+// latihan 3
+$max_attempts = 3;
+if (($_SESSION['login_attempts'] ?? 0) >= $max_attempts) {$_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Terlalu banyak percobaan gagal. Akses formulir login dikunci.'];
+    header('Location: login.php');
+    exit;
+}
+
 $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
 
@@ -12,10 +19,12 @@ $stmt->execute(['username' => $username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($password, $user['password'])) {
+    // Reset counter percobaan gagal jika login berhasil
+    unset($_SESSION['login_attempts']);
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['nama'] = $user['nama'];
     $_SESSION['role'] = $user['role'];
-    
+
     // Latihan 2: Logika "Ingat Saya" (Remember Me)
     if (isset($_POST['remember_me'])) {
         // 1. Buat token acak yang aman
@@ -46,6 +55,15 @@ if ($user && password_verify($password, $user['password'])) {
     exit;
 }
 
-$_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Username atau password salah.'];
+// Latihan 3: Tambah 1 ke counter kegagalan jika login salah
+$_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+$sisa = $max_attempts - $_SESSION['login_attempts'];
+
+if ($sisa > 0) {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => "Username atau password salah. Sisa percobaan: {$sisa}"];
+} else {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => "Terlalu banyak percobaan gagal. Akses formulir login dikunci!"];
+}
+
 header('Location: login.php');
 exit;
