@@ -30,6 +30,12 @@ unset($_SESSION['flash']);
                     <input type="password" id="password" name="password" required>
                 </p>
                 <p>
+                    <!-- latihan 2: menambahkan checkbox "Ingat Saya" -->
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="remember_me" value="1"> Ingat Saya
+                    </label>
+                </p>
+                <p>
                     <button type="submit">Masuk</button>
                 </p>
             </form>
