@@ -10,18 +10,26 @@ unset($_SESSION['flash']);
 
 $keyword = trim($_GET['q'] ?? '');
 
-// [Jobsheet 12] JOIN 3 Tabel (peminjaman, buku, anggota) untuk menampilkan transaksi aktif
-$sqlDasar = "SELECT p.id, b.judul, a.nama, p.tanggal_pinjam
-             FROM peminjaman p
-             JOIN buku b ON b.id = p.buku_id
-             JOIN anggota a ON a.id = p.anggota_id
-             WHERE p.status = 'dipinjam'";
+// [Latihan 2] Ambil peminjaman aktif beserta tanggal_jatuh_tempo & penanda terlambat
+$sql = "SELECT p.id, a.nama AS nama_anggota, b.judul AS judul_buku, 
+               p.tanggal_pinjam, p.tanggal_jatuh_tempo,
+               (CURRENT_DATE > p.tanggal_jatuh_tempo) AS is_terlambat
+        FROM peminjaman p
+        JOIN anggota a ON p.anggota_id = a.id
+        JOIN buku b ON p.buku_id = b.id
+        WHERE p.status = 'dipinjam'";
 
 if ($keyword !== '') {
-    $stmt = $pdo->prepare($sqlDasar . " AND (b.judul ILIKE :kw OR a.nama ILIKE :kw) ORDER BY p.tanggal_pinjam");
+    $sql .= " AND (b.judul ILIKE :kw OR a.nama ILIKE :kw)";
+}
+
+$sql .= " ORDER BY p.tanggal_pinjam ASC";
+
+if ($keyword !== '') {
+    $stmt = $pdo->prepare($sql);
     $stmt->execute(['kw' => '%' . $keyword . '%']);
 } else {
-    $stmt = $pdo->query($sqlDasar . " ORDER BY p.tanggal_pinjam");
+    $stmt = $pdo->query($sql);
 }
 $daftarAktif = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -49,20 +57,27 @@ $daftarAktif = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Anggota</th>
                         <th>Buku</th>
                         <th>Tgl Pinjam</th>
+                        <th>Tgl Jatuh Tempo</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($daftarAktif)): ?>
                     <tr>
-                        <td colspan="4">Tidak ada peminjaman aktif.</td>
+                        <td colspan="5">Tidak ada peminjaman aktif.</td>
                     </tr>
                     <?php else: ?>
                         <?php foreach ($daftarAktif as $trx): ?>
                         <tr>
-                            <td><?php echo e($trx['nama']); ?></td>
-                            <td><?php echo e($trx['judul']); ?></td>
+                            <td><?php echo e($trx['nama_anggota']); ?></td>
+                            <td><?php echo e($trx['judul_buku']); ?></td>
                             <td><?php echo $trx['tanggal_pinjam']; ?></td>
+                            <td>
+                                <?php echo $trx['tanggal_jatuh_tempo']; ?>
+                                <?php if ($trx['is_terlambat']): ?>
+                                    <span style="color: red; font-weight: bold;">(Terlambat)</span>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <form method="post" action="proses_kembali.php">
                                     <?php echo csrf_field(); ?>
