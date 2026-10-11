@@ -11,7 +11,7 @@ unset($_SESSION['flash']);
 $keyword = trim($_GET['q'] ?? '');
 
 // [Latihan 2] Ambil peminjaman aktif beserta tanggal_jatuh_tempo & penanda terlambat
-$sql = "SELECT p.id, a.nama AS nama_anggota, b.judul AS judul_buku, 
+$sql = "SELECT p.id, a.nama AS nama_anggota, a.no_hp, b.judul AS judul_buku, 
                p.tanggal_pinjam, p.tanggal_jatuh_tempo,
                (CURRENT_DATE > p.tanggal_jatuh_tempo) AS is_terlambat
         FROM peminjaman p
@@ -20,7 +20,7 @@ $sql = "SELECT p.id, a.nama AS nama_anggota, b.judul AS judul_buku,
         WHERE p.status = 'dipinjam'";
 
 if ($keyword !== '') {
-    $sql .= " AND (b.judul ILIKE :kw OR a.nama ILIKE :kw)";
+    $sql .= " AND (b.judul ILIKE :kw OR a.nama ILIKE :kw OR a.no_hp ILIKE :kw)";
 }
 
 $sql .= " ORDER BY p.tanggal_pinjam ASC";
@@ -43,8 +43,8 @@ $daftarAktif = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="search-box">
                 <form method="get" action="kembali.php">
                     <span>
-                        <label for="search-input">Cari anggota/buku</label><br>
-                        <input type="text" id="search-input" name="q" value="<?php echo e($keyword); ?>" placeholder="Nama anggota atau judul buku...">
+                        <label for="search-input">Cari anggota/buku/no.hp</label><br>
+                        <input type="text" id="search-input" name="q" value="<?php echo e($keyword); ?>" placeholder="Nama anggota, judul buku, atau No. HP...">
                     </span>
                     <button type="submit">Cari</button>
                 </form>
@@ -55,6 +55,7 @@ $daftarAktif = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <thead>
                     <tr>
                         <th>Anggota</th>
+                        <th>No. HP</th>
                         <th>Buku</th>
                         <th>Tgl Pinjam</th>
                         <th>Tgl Jatuh Tempo</th>
@@ -64,12 +65,13 @@ $daftarAktif = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                     <?php if (empty($daftarAktif)): ?>
                     <tr>
-                        <td colspan="5">Tidak ada peminjaman aktif.</td>
+                        <td colspan="6">Tidak ada peminjaman aktif.</td>
                     </tr>
                     <?php else: ?>
                         <?php foreach ($daftarAktif as $trx): ?>
                         <tr>
                             <td><?php echo e($trx['nama_anggota']); ?></td>
+                            <td><?php echo e($trx['no_hp']); ?></td>
                             <td><?php echo e($trx['judul_buku']); ?></td>
                             <td><?php echo $trx['tanggal_pinjam']; ?></td>
                             <td>
