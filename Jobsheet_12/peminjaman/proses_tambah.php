@@ -18,6 +18,25 @@ if ($anggotaId === '' || $bukuId === '') {
     exit;
 }
 
+// latihan 1: VALIDASI BISNIS: Cek peminjaman terlambat > 14 hari
+$cekTerlambat = $pdo->prepare(
+    "SELECT COUNT(*) FROM peminjaman 
+     WHERE anggota_id = :anggota_id 
+       AND status = 'dipinjam' 
+       AND (CURRENT_DATE - tanggal_pinjam) > 14"
+);
+$cekTerlambat->execute(['anggota_id' => $anggotaId]);
+$jumlahTerlambat = $cekTerlambat->fetchColumn();
+
+if ($jumlahTerlambat > 0) {
+    $_SESSION['flash'] = [
+        'type' => 'error', 
+        'pesan' => 'Anggota tidak dapat meminjam buku baru karena memiliki peminjaman yang terlambat lebih dari 14 hari.'
+    ];
+    header('Location: tambah.php');
+    exit;
+}
+
 try {
     // [Jobsheet 12] Memulai Database Transaction
     $pdo->beginTransaction();
