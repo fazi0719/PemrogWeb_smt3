@@ -11,6 +11,7 @@ csrf_verify();
 $anggotaId = $_POST['anggota_id'] ?? '';
 $bukuId = $_POST['buku_id'] ?? '';
 
+
 if ($anggotaId === '' || $bukuId === '') {
     $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Anggota dan buku wajib dipilih.'];
     header('Location: tambah.php');
@@ -18,6 +19,29 @@ if ($anggotaId === '' || $bukuId === '') {
 }
 
 try {
+    // latihan 2
+    // --- VALIDASI BISNIS: Cek Keterlambatan Anggota > 14 Hari ---
+    $sql_cek_terlambat = "
+        SELECT COUNT(*) AS total_terlambat
+        FROM peminjaman
+        WHERE anggota_id = :anggota_id 
+          AND status = 'dipinjam' 
+          AND CURRENT_DATE - tanggal_pinjam > 14
+    ";
+    
+    $stmt_cek = $pdo->prepare($sql_cek_terlambat);
+    $stmt_cek->execute(['anggota_id' => $anggotaId]);
+    $row_cek = $stmt_cek->fetch(PDO::FETCH_ASSOC);
+
+    if ($row_cek && $row_cek['total_terlambat'] > 0) {
+        $_SESSION['flash'] = [
+            'type' => 'error', 
+            'pesan' => 'Transaksi ditolak! Anggota ini memiliki keterlambatan pengembalian lebih dari 14 hari.'
+        ];
+        header("Location: tambah.php");
+        exit;
+    }
+
     // [Jobsheet 12] Memulai Database Transaction
     $pdo->beginTransaction();
 
@@ -48,9 +72,12 @@ try {
     header('Location: ../index.php');
     exit;
 } catch (Exception $e) {
+    // Rollback HANYA jika ada transaksi aktif
+    if ($pdo->inTransaction()) {
     // [Jobsheet 12] Rollback seluruh perubahan jika terjadi gagal/error
     $pdo->rollBack();
     $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal mencatat peminjaman: ' . $e->getMessage()];
     header('Location: tambah.php');
     exit;
+}
 }
