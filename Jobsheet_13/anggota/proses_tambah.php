@@ -29,6 +29,7 @@ if (!empty($errors)) {
     exit;
 }
 
+try {
 // [Jobsheet 08] Insert Data via Prepared Statements
 $stmt = $pdo->prepare(
     "INSERT INTO anggota (nama, no_anggota, alamat, no_hp)
@@ -44,3 +45,13 @@ $stmt->execute([
 $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Anggota berhasil ditambahkan.'];
 header('Location: list.php');
 exit;
+
+} catch (PDOException $e) {
+    // Menangkap error jika No. Anggota sudah terdaftar
+    $_SESSION['flash'] = [
+        'type' => 'error', 
+        'pesan' => 'Gagal: No. Anggota ' . htmlspecialchars($noAnggota) . ' sudah terdaftar!'
+    ];
+    header('Location: tambah.php');
+    exit;
+}
